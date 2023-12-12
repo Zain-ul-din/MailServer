@@ -13,28 +13,28 @@ const DEFAULT_BACKOFF_INITIAL_DELAY_MS = 2000;
 
 class MailServer 
 {
-constructor ({ 
-    maxRetriesCount, 
-    backOffDelay 
-}={ 
-    maxRetries: DEFAULT_MAX_RETRIES_COUNT,
-    backOffDelay: DEFAULT_BACKOFF_INITIAL_DELAY_MS
-})
-{
-    this.maxRetriesCount = maxRetriesCount;
-    this.backOffDelay = backOffDelay;
-    this.retries = {};
-    this.transporter = nodeMailer.createTransport({
-        host: process.env.HOST,
-        port: process.env.PORT,
-        secure: true,
-        auth: {
-            user: process.env.USER_NAME,
-            pass: process.env.PASSWORD
-        }
-    });
-    this.spinner = spinner();
-}
+    constructor ({ 
+        maxRetriesCount, 
+        backOffDelay 
+    }={ 
+        maxRetries: DEFAULT_MAX_RETRIES_COUNT,
+        backOffDelay: DEFAULT_BACKOFF_INITIAL_DELAY_MS
+    })
+    {
+        this.maxRetriesCount = maxRetriesCount;
+        this.backOffDelay = backOffDelay;
+        this.retries = {};
+        this.transporter = nodeMailer.createTransport({
+            host: process.env.HOST,
+            port: process.env.PORT,
+            secure: true,
+            auth: {
+                user: process.env.USER_NAME,
+                pass: process.env.PASSWORD
+            }
+        });
+        this.spinner = spinner();
+    }
 
     /**
      * increments retries count
