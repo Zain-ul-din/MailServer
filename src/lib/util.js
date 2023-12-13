@@ -2,7 +2,7 @@ const fs = require("fs");
 
 /**
  * loads recipients data from JSON file
- * @param {*} jsonFilePath 
+ * @param {string} jsonFilePath 
  * @example
  * ```javascript
  *  loadRecipients("./recipients.json")
@@ -21,8 +21,8 @@ const loadRecipients = (jsonFilePath)=> {
 
 /**
  * removes recipient from file by email
- * @param {*} jsonFilePath file path
- * @param {*} email email of recipient
+ * @param {string} jsonFilePath file path
+ * @param {string} email email of recipient
  */
 const removeRecipients = (jsonFilePath, email)=> {
     const recipients = JSON.parse(
