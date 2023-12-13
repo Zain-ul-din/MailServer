@@ -108,7 +108,7 @@ class MailServer
             
             await new Promise((resolve)=> setTimeout(resolve, this.backOffDelay));
             this.spinner.stop("");
-            this.sendMail(from, recipient, subject, onSucceed);
+            await this.sendMail(from, recipient, subject, onSucceed);
         }
         
     }
