@@ -11,19 +11,29 @@ const DEFAULT_MAX_RETRIES_COUNT = 20
 */
 const DEFAULT_BACKOFF_INITIAL_DELAY_MS = 2000;
 
+/**
+ * Default options to use 
+*/
+const DEFAULT_OPTIONS = { 
+    maxRetryCount: DEFAULT_MAX_RETRIES_COUNT,
+    backOffDelay: DEFAULT_BACKOFF_INITIAL_DELAY_MS
+}
+
 class MailServer 
 {
-    constructor ({ 
-        maxRetriesCount, 
-        backOffDelay 
-    }={ 
-        maxRetries: DEFAULT_MAX_RETRIES_COUNT,
-        backOffDelay: DEFAULT_BACKOFF_INITIAL_DELAY_MS
-    })
+    /**
+     * @param {{
+     *      maxRetryCount: number,
+     *      backOffDelay: number
+     * }} options 
+    */
+    constructor (options=DEFAULT_OPTIONS)
     {
-        this.maxRetriesCount = maxRetriesCount;
-        this.backOffDelay = backOffDelay;
+        this.maxRetryCount = options.maxRetryCount || DEFAULT_OPTIONS.maxRetryCount;
+        this.backOffDelay = options.backOffDelay || DEFAULT_OPTIONS.backOffDelay;
         this.retries = {};
+        
+        this.spinner = spinner();
         this.transporter = nodeMailer.createTransport({
             host: process.env.HOST,
             port: process.env.PORT,
@@ -33,7 +43,6 @@ class MailServer
                 pass: process.env.PASSWORD
             }
         });
-        this.spinner = spinner();
     }
 
     /**
@@ -59,7 +68,7 @@ class MailServer
     isRetriesExceed (recipientMail) 
     {
         if(this.retries[recipientMail] == undefined) return false;
-        return this.retries[recipientMail] >= this.maxRetries;
+        return this.retries[recipientMail] >= this.maxRetryCount;
     }
 
 
